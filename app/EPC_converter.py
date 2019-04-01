@@ -15,6 +15,11 @@ def bin_to_dec(bin):
     dec = int(bin, 2)
     return dec
 
+def add_missing_zeros(string, normal_length):
+    while len(string) < normal_length:
+        string = "0" + string
+    return string
+
 def checksum_calculator(EAN13_without_checksum):
     total_odds = 0
     total_evens = 0
@@ -23,24 +28,26 @@ def checksum_calculator(EAN13_without_checksum):
         total_evens = total_evens + int(EAN13_without_checksum[2*x+1:2*x+2])
     result = (total_evens*3) + total_odds
     last_digit = str(result)[len(str(result))-1:len(str(result))]
-    checksum = str(10 - int(last_digit))
-    print('checksum of ' + EAN13_without_checksum + ' is: ' + checksum)
+    if last_digit == "0":
+        checksum = "0"
+    else:
+        checksum = str(10 - int(last_digit))
     return checksum
 
-def EPC_decode_store_code(EPCbin):
+def EPC_decode_company_prefix(EPCbin):
     EPCbin_part1 = EPCbin[15:34]
-    store_code = bin_to_dec(EPCbin_part1)
-    print('store code is: ' + str(store_code))
-    return store_code
+    company_prefix = bin_to_dec(EPCbin_part1)
+    return str(company_prefix)
 
-def EPC_decode_EAN13_without_checksum(EPCbin):
+def EPC_decode_EAN13_part2_without_checksum(EPCbin):
     EPCbin_part2 = EPCbin[35:58]
-    EAN13_without_checksum = bin_to_dec(EPCbin_part2)
-    print('EAN13 without checksum is: ' + str(EAN13_without_checksum))
-    return EAN13_without_checksum
+    EAN13_part2_without_checksum = bin_to_dec(EPCbin_part2)
+    return str(EAN13_part2_without_checksum)
 
-def EPC_decode_EAN13(store_code, EAN13_without_checksum):
-    EAN13_without_checksum = str(store_code) + str(EAN13_without_checksum)
+def EPC_decode_EAN13(company_prefix, EAN13_part2_without_checksum):
+    company_prefix = add_missing_zeros(company_prefix, 6)
+    EAN13_part2_without_checksum = add_missing_zeros(EAN13_part2_without_checksum, 6)
+    EAN13_without_checksum = str(company_prefix) + str(EAN13_part2_without_checksum)
     checksum = checksum_calculator(EAN13_without_checksum)
     EAN13 = EAN13_without_checksum + checksum
     return EAN13
@@ -48,15 +55,13 @@ def EPC_decode_EAN13(store_code, EAN13_without_checksum):
 def EPC_decode_serial(EPCbin):
     EPCbin_part3 = EPCbin[59:96]
     serial = str(bin_to_dec(EPCbin_part3))
-    print('Serial number is: ' + str(serial))
     return serial
 
 def EPC_decoder(EPC):
     EPCbin = hex_to_bin(EPC)
-    store_code = EPC_decode_store_code(EPCbin)
-    EAN13_without_checksum = EPC_decode_EAN13_without_checksum(EPCbin)
-    EAN13 = EPC_decode_EAN13(store_code, EAN13_without_checksum)
+    company_prefix = EPC_decode_company_prefix(EPCbin)
+    EAN13_without_checksum_part2 = EPC_decode_EAN13_part2_without_checksum(EPCbin)
+    EAN13 = EPC_decode_EAN13(company_prefix, EAN13_without_checksum_part2)
     serial = EPC_decode_serial(EPCbin)
     decoded_EPC = {"EAN13": EAN13, "serial": serial}
-    print(decoded_EPC)
     return decoded_EPC

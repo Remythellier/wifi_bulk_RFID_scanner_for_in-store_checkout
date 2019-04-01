@@ -16,6 +16,7 @@ items_EPCs_in_cart = []
 last_unique_item_timestamp = datetime.datetime.now()
 
 def empty_cart():
+    global items_EPCs_in_cart
     items_EPCs_in_cart = []
     return True
 

@@ -1,27 +1,29 @@
 # Wifi bulk RFID scanner for in-store checkout
 
-Project Trolley is a standalone, mobile, RFID-based, bulk item scanning device that feeds on request the cart of a payment mobile app used in-store. 
-It targets retail stores whose salesmen are using smartphone-based for checkout. Those mobile applications require one by one item scanning. Some store having already RFID tagged all their products.
-This project allows the salesmen of those stores to instantly scan a large number of items, speeding-up drastically the checkout process from anywhere in the store.
+Project Box is a standalone, mobile, RFID-based, bulk item scanning device that feeds on request the cart of a payment mobile app used in-store. 
+It targets retail stores in which salesmen are using smartphone apps for checkout. 
+Those mobile applications require one by one item scanning but some store already have RFID tags on all their products.
+This project allows  salesmen to instantly scan a large number of items, speeding-up drastically the checkout process from anywhere in the store.
 
-First, a cart full of products needs to be entirely inserted in the trolley
-- The trolley's embedded RFID reader scans all the products and stores the information
-Secondly, the QR code located on the trolley should be scanned by the salesman’s smartphone using the checkout app.
-- On scan, the checkout app asks the trolley to feed its cart with all the items previously scanned
+## Use Case
+
+First, a cart full of products needs to be entirely inserted in a box.
+- The box's embedded RFID reader scans all the products and stores the information
+Secondly, the QR code located on the box is scanned by the salesman’s smartphone using the checkout app.
+- On scan, the checkout app asks the box to feed its cart with all the items previously scanned
 All the cart’s items now appear in the checkout app, the payment process can now start.
 
---------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Requirements
 
 - Raspberry Pi (with wifi connectivity)
-- a USB RFID reader, that acts as a keyboard,  sending EPC codes continuously
+- a USB RFID reader, that acts as a keyboard, sending EPC codes continuously
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------------------------------------
 
-# SETUP
+
+# Setup
 
 sudo pip install pynput
 sudo pip install flask
@@ -30,9 +32,8 @@ sudo pip install flask_restful
 This works on a private network, the computer needs to be connected to a network and to have a static IP
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------------------------------------
 
-# START
+# Start
 
 run the application:
 python app.js
@@ -42,9 +43,9 @@ python -m unittest discover
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------------------------------------
 
-# MODULES
+
+# Modules
 
 ## Libraries
 
@@ -78,7 +79,7 @@ server.py - API allowing communication with app
 test_**.py - unit tests 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # EPC converter explanation
 
@@ -90,8 +91,3 @@ ex.
 checksum for 360843956563
 ((3+5+5+3+8+6)*3+(6+6+9+4+0+3)) 
 10 - 8 = 2
-
---------------------------------------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------------------------------------------
-
-

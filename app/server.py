@@ -25,8 +25,8 @@ class getStatus(Resource):
     def get(self):
         return {'status': "live"}
 
-api.add_resource(getCart, '/42$cart')
-api.add_resource(getStatus, '/status/')
+api.add_resource(getCart, '/cart/')
+api.add_resource(getStatus, '/')
 
 def run():
     app.run(host="0.0.0.0", debug=False)
